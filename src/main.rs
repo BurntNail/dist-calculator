@@ -8,7 +8,7 @@ use comfy_table::{ContentArrangement, Table};
 fn main() -> Result<(), Box<dyn Error>> {
     let input = read_to_string("input.txt")?;
     let mut hm: HashMap<String, u64> = HashMap::new();
-    for line in input.lines().map(Into::into) {
+    for line in input.lines().map(|line| line.trim().into()) {
         let e = hm.entry(line).or_default();
         *e += 1;
     }
@@ -24,7 +24,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         .load_preset(UTF8_FULL)
         .apply_modifier(UTF8_ROUND_CORNERS)
         .set_content_arrangement(ContentArrangement::Dynamic)
-        .set_header(vec![format!("Val / {no_rows}"), format!("# / {total}"), format!("% / {:.1}%", no_rows.powf(-1.0) * 100.0)]);
+        .set_header(vec![format!("Val / {no_rows}"), format!("# / {total} / {:.1}", total / no_rows), format!("% / {:.1}%", no_rows.powf(-1.0) * 100.0)]);
     table.add_rows(rows);
 
     println!("{table}");

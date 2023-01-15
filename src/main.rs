@@ -31,10 +31,14 @@ fn main() -> color_eyre::Result<()> {
     };
 
     let mut hm: HashMap<String, u64> = HashMap::new(); //Make a new HashMap for storing the entries and their counts
-    input.into_iter()
+    input
+        .into_iter()
         .for_each(|line| *hm.entry(line).or_default() += 1); //For each bit, get a reference to an entry for the current kind, or the default and add one.
 
-    let total = args.next().and_then(|st| st.parse::<u64>().ok()).unwrap_or_else(|| hm.values().sum::<u64>()) as f32; //get the total number of entries of each element as an f32, either from the args or from the list
+    let total = args
+        .next()
+        .and_then(|st| st.parse::<u64>().ok())
+        .unwrap_or_else(|| hm.values().sum::<u64>()) as f32; //get the total number of entries of each element as an f32, either from the args or from the list
     let no_rows = hm.keys().len() as f32; //same but for the number of string kinds
     let mut rows: Vec<(String, u64, String)> = hm
         .into_iter()
